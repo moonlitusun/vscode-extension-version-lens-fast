@@ -1,0 +1,274 @@
+{
+  "name": "version-lens-fast",
+  "displayName": "Version Lens Fast",
+  "description": "Fast package.json dependency update lenses for VS Code.",
+  "version": "0.1.0",
+  "publisher": "rocsun",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rocsun/vscode-extension-version-lens-fast"
+  },
+  "homepage": "https://github.com/rocsun/vscode-extension-version-lens-fast",
+  "bugs": {
+    "url": "https://github.com/rocsun/vscode-extension-version-lens-fast/issues"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "npm",
+    "package.json",
+    "dependencies",
+    "version",
+    "codelens",
+    "semver"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "activationEvents": [
+    "onLanguage:json",
+    "onLanguage:jsonc",
+    "onCommand:versionLensFast.toggle",
+    "onCommand:versionLensFast.showPrereleases",
+    "onCommand:versionLensFast.hidePrereleases",
+    "onCommand:versionLensFast.clearCache",
+    "onCommand:versionLensFast.updateAllLatest",
+    "onCommand:versionLensFast.updateAllMajor",
+    "onCommand:versionLensFast.updateAllMinor",
+    "onCommand:versionLensFast.updateAllPatch",
+    "onCommand:versionLensFast.sortDependencies"
+  ],
+  "main": "./dist/extension.js",
+  "files": [
+    "dist/**",
+    "images/**",
+    "node_modules/**",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "versionLensFast.toggle",
+        "title": "Version Lens Fast: Toggle release versions",
+        "icon": {
+          "light": "images/icons/v-spark-light.svg",
+          "dark": "images/icons/v-spark-dark.svg"
+        }
+      },
+      {
+        "command": "versionLensFast.refreshing",
+        "title": "Version Lens Fast: Refreshing cached results",
+        "icon": "$(sync~spin)"
+      },
+      {
+        "command": "versionLensFast.showPrereleases",
+        "title": "Version Lens Fast: Show prerelease versions",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "versionLensFast.hidePrereleases",
+        "title": "Version Lens Fast: Hide prerelease versions",
+        "icon": "$(beaker-stop)"
+      },
+      {
+        "command": "versionLensFast.clearCache",
+        "title": "Version Lens Fast: Clear cache",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "versionLensFast.updateAllLatest",
+        "title": "Version Lens Fast: Update dependencies to latest",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "versionLensFast.updateAllMajor",
+        "title": "Version Lens Fast: Update dependencies (major-only)",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "versionLensFast.updateAllMinor",
+        "title": "Version Lens Fast: Update dependencies (minor-only)",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "versionLensFast.updateAllPatch",
+        "title": "Version Lens Fast: Update dependencies (patch-only)",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "versionLensFast.sortDependencies",
+        "title": "Version Lens Fast: Sort dependencies alphabetically",
+        "icon": "$(sort-precedence)"
+      },
+      {
+        "command": "versionLensFast.updateDependency",
+        "title": "Version Lens Fast: Update dependency"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "versionLensFast.toggle",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.showPrereleases",
+          "when": "versionLensFast.supportedEditor && !versionLensFast.prereleases"
+        },
+        {
+          "command": "versionLensFast.hidePrereleases",
+          "when": "versionLensFast.supportedEditor && versionLensFast.prereleases"
+        },
+        {
+          "command": "versionLensFast.clearCache",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllLatest",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllMajor",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllMinor",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllPatch",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.sortDependencies",
+          "when": "versionLensFast.supportedEditor"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "versionLensFast.toggle",
+          "group": "navigation@1",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.refreshing",
+          "group": "navigation@1",
+          "when": "versionLensFast.supportedEditor && versionLensFast.visible && versionLensFast.busy"
+        },
+        {
+          "command": "versionLensFast.showPrereleases",
+          "group": "navigation@2",
+          "when": "versionLensFast.supportedEditor && !versionLensFast.prereleases"
+        },
+        {
+          "command": "versionLensFast.hidePrereleases",
+          "group": "navigation@2",
+          "when": "versionLensFast.supportedEditor && versionLensFast.prereleases"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "versionLensFast.updateAllLatest",
+          "group": "versionLensFast@1",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllMajor",
+          "group": "versionLensFast@2",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllMinor",
+          "group": "versionLensFast@3",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateAllPatch",
+          "group": "versionLensFast@4",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.sortDependencies",
+          "group": "versionLensFast@5",
+          "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.clearCache",
+          "group": "versionLensFast@6",
+          "when": "versionLensFast.supportedEditor"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Version Lens Fast",
+      "properties": {
+        "versionLensFast.showOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show version lenses automatically when opening package.json."
+        },
+        "versionLensFast.includePrerelease": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow prerelease versions when computing update targets."
+        },
+        "versionLensFast.cacheTtlMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "description": "Registry cache duration in minutes."
+        },
+        "versionLensFast.registryUrl": {
+          "type": "string",
+          "default": "https://registry.npmjs.org/",
+          "description": "Registry base URL used for package metadata lookups."
+        },
+        "versionLensFast.maxConcurrentRequests": {
+          "type": "number",
+          "default": 12,
+          "minimum": 1,
+          "maximum": 32,
+          "description": "Maximum concurrent package metadata requests."
+        },
+        "versionLensFast.sections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "dependencies",
+            "devDependencies",
+            "peerDependencies",
+            "optionalDependencies",
+            "bundledDependencies",
+            "bundleDependencies"
+          ],
+          "description": "Top-level package.json sections that Version Lens Fast scans."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "npm run build && node --test test/*.test.js",
+    "watch": "tsc -p . -w",
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/semver": "^7.5.8",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.7.1",
+    "mock-require": "^3.0.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1",
+    "semver": "^7.7.2"
+  }
+}
