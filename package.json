@@ -3,7 +3,7 @@
   "displayName": "Version Lens Fast",
   "description": "Fast package.json dependency update lenses for VS Code.",
   "version": "0.1.0",
-  "publisher": "rocsun",
+  "publisher": "moonlitusun",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -44,7 +44,6 @@
   "main": "./dist/extension.js",
   "files": [
     "dist/**",
-    "images/**",
     "node_modules/**",
     "README.md",
     "LICENSE",
@@ -55,10 +54,7 @@
       {
         "command": "versionLensFast.toggle",
         "title": "Version Lens Fast: Toggle release versions",
-        "icon": {
-          "light": "images/icons/v-spark-light.svg",
-          "dark": "images/icons/v-spark-dark.svg"
-        }
+        "icon": "$(eye)"
       },
       {
         "command": "versionLensFast.refreshing",
@@ -257,7 +253,8 @@
     "build": "tsc -p .",
     "test": "npm run build && node --test test/*.test.js",
     "watch": "tsc -p . -w",
-    "package": "npx @vscode/vsce package"
+    "package": "npx @vscode/vsce package",
+    "publish": "npx @vscode/vsce publish"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
