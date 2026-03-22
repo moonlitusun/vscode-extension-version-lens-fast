@@ -4,6 +4,7 @@
   "description": "Fast package.json dependency update lenses for VS Code.",
   "version": "0.1.0",
   "publisher": "moonlitusun",
+  "icon": "images/icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,8 +33,7 @@
     "onLanguage:json",
     "onLanguage:jsonc",
     "onCommand:versionLensFast.toggle",
-    "onCommand:versionLensFast.showPrereleases",
-    "onCommand:versionLensFast.hidePrereleases",
+    "onCommand:versionLensFast.togglePrereleases",
     "onCommand:versionLensFast.clearCache",
     "onCommand:versionLensFast.updateAllLatest",
     "onCommand:versionLensFast.updateAllMajor",
@@ -44,6 +44,7 @@
   "main": "./dist/extension.js",
   "files": [
     "dist/**",
+    "images/icon.png",
     "node_modules/**",
     "README.md",
     "LICENSE",
@@ -54,7 +55,10 @@
       {
         "command": "versionLensFast.toggle",
         "title": "Version Lens Fast: Toggle release versions",
-        "icon": "$(eye)"
+        "icon": {
+          "light": "images/icons/v-spark-light.svg",
+          "dark": "images/icons/v-spark-dark.svg"
+        }
       },
       {
         "command": "versionLensFast.refreshing",
@@ -62,14 +66,12 @@
         "icon": "$(sync~spin)"
       },
       {
-        "command": "versionLensFast.showPrereleases",
-        "title": "Version Lens Fast: Show prerelease versions",
-        "icon": "$(beaker)"
-      },
-      {
-        "command": "versionLensFast.hidePrereleases",
-        "title": "Version Lens Fast: Hide prerelease versions",
-        "icon": "$(beaker-stop)"
+        "command": "versionLensFast.togglePrereleases",
+        "title": "Version Lens Fast: Toggle prerelease versions",
+        "icon": {
+          "light": "images/icons/v-tag-light.svg",
+          "dark": "images/icons/v-tag-dark.svg"
+        }
       },
       {
         "command": "versionLensFast.clearCache",
@@ -113,12 +115,8 @@
           "when": "versionLensFast.supportedEditor"
         },
         {
-          "command": "versionLensFast.showPrereleases",
-          "when": "versionLensFast.supportedEditor && !versionLensFast.prereleases"
-        },
-        {
-          "command": "versionLensFast.hidePrereleases",
-          "when": "versionLensFast.supportedEditor && versionLensFast.prereleases"
+          "command": "versionLensFast.togglePrereleases",
+          "when": "versionLensFast.supportedEditor"
         },
         {
           "command": "versionLensFast.clearCache",
@@ -143,6 +141,10 @@
         {
           "command": "versionLensFast.sortDependencies",
           "when": "versionLensFast.supportedEditor"
+        },
+        {
+          "command": "versionLensFast.updateDependency",
+          "when": "false"
         }
       ],
       "editor/title": [
@@ -155,16 +157,6 @@
           "command": "versionLensFast.refreshing",
           "group": "navigation@1",
           "when": "versionLensFast.supportedEditor && versionLensFast.visible && versionLensFast.busy"
-        },
-        {
-          "command": "versionLensFast.showPrereleases",
-          "group": "navigation@2",
-          "when": "versionLensFast.supportedEditor && !versionLensFast.prereleases"
-        },
-        {
-          "command": "versionLensFast.hidePrereleases",
-          "group": "navigation@2",
-          "when": "versionLensFast.supportedEditor && versionLensFast.prereleases"
         }
       ],
       "editor/title/context": [
