@@ -56,13 +56,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         provider.refresh();
       }
     }),
-    vscode.commands.registerCommand("versionLensFast.showPrereleases", async () => {
-      await context.workspaceState.update(prereleaseStateKey, true);
-      await updateContextKeys(context, provider);
-      provider.clear();
-    }),
-    vscode.commands.registerCommand("versionLensFast.hidePrereleases", async () => {
-      await context.workspaceState.update(prereleaseStateKey, false);
+    vscode.commands.registerCommand("versionLensFast.togglePrereleases", async () => {
+      await context.workspaceState.update(prereleaseStateKey, !includePrerelease(context));
       await updateContextKeys(context, provider);
       provider.clear();
     }),
