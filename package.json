@@ -2,17 +2,17 @@
   "name": "version-lens-fast",
   "displayName": "Version Lens Fast",
   "description": "Fast package.json dependency update lenses for VS Code.",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "publisher": "moonlitusun",
   "icon": "images/icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rocsun/vscode-extension-version-lens-fast"
+    "url": "https://github.com/moonlitusun/vscode-extension-version-lens-fast"
   },
-  "homepage": "https://github.com/rocsun/vscode-extension-version-lens-fast",
+  "homepage": "https://github.com/moonlitusun/vscode-extension-version-lens-fast",
   "bugs": {
-    "url": "https://github.com/rocsun/vscode-extension-version-lens-fast/issues"
+    "url": "https://github.com/moonlitusun/vscode-extension-version-lens-fast/issues"
   },
   "categories": [
     "Programming Languages",
