@@ -2,7 +2,7 @@
   "name": "version-lens-fast",
   "displayName": "Version Lens Fast",
   "description": "Fast package.json dependency update lenses for VS Code.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "moonlitusun",
   "icon": "images/icon.png",
   "license": "MIT",
