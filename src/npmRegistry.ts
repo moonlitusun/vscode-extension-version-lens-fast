@@ -1,5 +1,6 @@
 import * as semver from "semver";
-import { getSettings } from "./config";
+import { getConfiguredRegistryUrlOverride, getSettings } from "./config";
+import { NpmConfigResolver } from "./npmConfig";
 import type { DependencyEntry, ResolvedDependencyState, UpdateTargets, UpdateMode } from "./types";
 
 interface Packument {
@@ -28,15 +29,18 @@ const unsupportedPrefixes = [
 export class NpmRegistryClient {
   private readonly cache = new Map<string, CacheEntry>();
   private readonly inflight = new Map<string, Promise<Packument>>();
+  private readonly npmConfigResolver = new NpmConfigResolver();
 
   clear(): void {
     this.cache.clear();
     this.inflight.clear();
+    this.npmConfigResolver.clear();
   }
 
   async resolveDependency(
     entry: DependencyEntry,
-    includePrerelease: boolean
+    includePrerelease: boolean,
+    documentPath?: string
   ): Promise<ResolvedDependencyState> {
     if (!entry.spec || isUnsupportedSpec(entry.spec)) {
       return {
@@ -53,7 +57,7 @@ export class NpmRegistryClient {
       };
     }
 
-    const packument = await this.fetchPackument(entry.name);
+    const packument = await this.fetchPackument(entry.name, documentPath);
     const targets = getUpdateTargets(
       currentVersion,
       packument.versions,
@@ -77,9 +81,15 @@ export class NpmRegistryClient {
     };
   }
 
-  private async fetchPackument(packageName: string): Promise<Packument> {
+  private async fetchPackument(packageName: string, documentPath?: string): Promise<Packument> {
     const settings = getSettings();
-    const registryUrl = ensureTrailingSlash(settings.registryUrl);
+    const registryOverride = getConfiguredRegistryUrlOverride();
+    const registryRequestConfig = await this.npmConfigResolver.resolve(
+      packageName,
+      documentPath,
+      registryOverride
+    );
+    const registryUrl = ensureTrailingSlash(registryRequestConfig.registryUrl);
     const cacheKey = `${registryUrl}|${packageName}`;
     const cached = this.cache.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
@@ -97,6 +107,7 @@ export class NpmRegistryClient {
       try {
         const response = await fetch(`${registryUrl}${encodePackageName(packageName)}`, {
           headers: {
+            ...registryRequestConfig.headers,
             Accept: "application/vnd.npm.install-v1+json, application/json"
           },
           signal: controller.signal

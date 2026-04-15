@@ -41,3 +41,19 @@ export function getSettings(): ExtensionSettings {
     sections: sections.length > 0 ? sections : [...defaultSections]
   };
 }
+
+export function getConfiguredRegistryUrlOverride(): string | undefined {
+  const config = vscode.workspace.getConfiguration(extensionNamespace);
+  const inspected = typeof config.inspect === "function" ? config.inspect<string>("registryUrl") : undefined;
+  if (!inspected) {
+    return undefined;
+  }
+
+  return (
+    inspected.workspaceFolderValue ??
+    inspected.workspaceValue ??
+    inspected.globalValue ??
+    inspected.workspaceLanguageValue ??
+    inspected.globalLanguageValue
+  );
+}

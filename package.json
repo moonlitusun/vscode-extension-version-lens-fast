@@ -214,7 +214,7 @@
         "versionLensFast.registryUrl": {
           "type": "string",
           "default": "https://registry.npmjs.org/",
-          "description": "Registry base URL used for package metadata lookups."
+          "description": "Explicit registry base URL override for package metadata lookups. Otherwise npm config and .npmrc files are used."
         },
         "versionLensFast.maxConcurrentRequests": {
           "type": "number",

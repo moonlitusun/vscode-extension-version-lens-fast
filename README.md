@@ -31,12 +31,12 @@ The goal is simple: make the `package.json` case feel fast enough that you want 
 - Can include or exclude prerelease versions
 - Shows cached results immediately when toggled back on, then refreshes in the background
 - Keeps the editor title bar minimal, with a single release toggle button
+- Respects npm registry configuration from `.npmrc`, user config, and registry auth tokens
 
 ## What it does not do yet
 
 - Other manifest formats such as `requirements.txt`, `pom.xml`, or `Cargo.toml`
 - Vulnerability diagnostics
-- Private registry authentication flows
 - Custom install tasks
 
 The internals already separate manifest parsing, registry resolution, and editor rendering, so adding more providers later does not require rewriting the core refresh flow.
@@ -92,7 +92,7 @@ The editor title bar intentionally stays minimal: it keeps a single release togg
   Sets how long registry results stay warm in memory before the extension considers them stale.
 
 - `versionLensFast.registryUrl`
-  Overrides the registry base URL for package metadata lookups.
+  Explicitly overrides the registry base URL. If you leave it at the default value, the extension uses your npm config and `.npmrc` files instead.
 
 - `versionLensFast.maxConcurrentRequests`
   Limits how many package metadata requests can run at the same time.

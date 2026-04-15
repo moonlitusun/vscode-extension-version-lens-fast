@@ -238,7 +238,11 @@ export class FastVersionLensProvider implements vscode.CodeLensProvider, vscode.
     try {
       await runWithConcurrency(settings.maxConcurrentRequests, entriesToRefresh, async (entry) => {
         try {
-          const state = await this.registryClient.resolveDependency(entry, includePrerelease);
+          const state = await this.registryClient.resolveDependency(
+            entry,
+            includePrerelease,
+            document.fileName
+          );
           snapshot.states.set(entry.id, state);
           snapshot.dirtyDependencyIds.delete(entry.id);
         } catch (error) {
